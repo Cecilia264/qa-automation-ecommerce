@@ -1,0 +1,8 @@
+# Core test framework
+pytest>=8.0,<10.0
+
+# Browser automation (installs the pytest-playwright plugin)
+pytest-playwright>=0.6,<1.0
+
+# HTTP client for API-level tests
+requests>=2.32,<3.0
