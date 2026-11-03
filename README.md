@@ -162,14 +162,20 @@ Los marcadores personalizados están registrados en `pytest.ini`; usar un marcad
 - **JUnit XML:** `pytest --junitxml=reports/junit.xml`, consumible por Jenkins, GitLab CI o GitHub Actions.
 - **Trazas de Playwright:** `pytest --tracing on`; los archivos se guardan en `test-results/`.
 
-Ejemplo de integración en CI:
+La integración continua se define en `.github/workflows/tests.yml` y se ejecuta en cada `push` y `pull_request`:
 
-```yaml
-- name: Run test suite
-  run: |
-    pip install -r requirements.txt
-    playwright install --with-deps chromium
-    pytest -m "smoke or api" --junitxml=reports/junit.xml
+1. Provisiona Ubuntu con Python 3.13 y caché de pip.
+2. Instala las dependencias de `requirements.txt`.
+3. Instala los navegadores de Playwright con sus dependencias de sistema (`playwright install --with-deps`).
+4. Ejecuta `pytest` y publica `reports/` como artefacto (`test-reports`), incluso si la suite falla.
+
+Para reproducir el pipeline localmente:
+
+```bash
+pip install -r requirements.txt
+playwright install --with-deps
+mkdir -p reports
+pytest --junitxml=reports/junit.xml
 ```
 
 ## 10. Buenas prácticas del proyecto
